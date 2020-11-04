@@ -21,7 +21,8 @@ class SettleUpViewController: UITableViewController {
         print(contributor)
         for i in 0..<(billStandings.count){
             if billStandings[i] > 0 {
-                for j in 0..<(billStandings.count){
+                var j = 0
+                while billStandings[i] != 0 && j < billStandings.count{
                     if i != j && billStandings[j] < 0{
                         if abs(billStandings[i]) < abs(billStandings[j]){
                             let a = billStandings[i]
@@ -31,17 +32,18 @@ class SettleUpViewController: UITableViewController {
                         }
                         else if abs(billStandings[i]) > abs(billStandings[j]){
                             let a = billStandings[j]
-                            billStandings[i] -= billStandings[j]
+                            billStandings[i] += billStandings[j]
                             billStandings[j] = 0
                             owings.append(["\(contributor[j].name)","\(contributor[i].name)","\(abs(a))"])
                         }
-                        else{
+                        else if abs(billStandings[i]) == abs(billStandings[j]) && abs(billStandings[i]) != 0 && abs(billStandings[j]) != 0{
                             let a = billStandings[i]
                             billStandings[i] = 0
                             billStandings[j] = 0
                             owings.append(["\(contributor[j].name)","\(contributor[i].name)","\(abs(a))"])
                         }
                     }
+                    j += 1
                 }
             }
         }
