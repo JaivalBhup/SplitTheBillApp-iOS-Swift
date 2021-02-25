@@ -13,6 +13,7 @@ class BillTableViewController: UITableViewController{
     var event:Event?
     var billAmts = [Double]()
     var individualPaymets = [Double]()
+    var deletingContriInd = -1
     override func viewDidLoad() {
         super.viewDidLoad()
         title = event?.eventName
@@ -35,12 +36,54 @@ class BillTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "Bill")!
         cell.textLabel?.text = event?.contributors[indexPath.row].name
-        cell.detailTextLabel?.text = "\(billAmts[indexPath.row]) INR"
+        cell.detailTextLabel?.text = "\(Double(floor(100*billAmts[indexPath.row])/100)) CAD"
         return cell
     }
     
     // MARK: - Table view delegate methods
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    func deleteContributor(at: Int){
+        if let contri = event?.contributors[at]{
+            for b in contri.bill{
+                do{
+                    try realm.write({
+                        realm.delete(b)
+                    })
+                }catch{
+                    print(error)
+                }
+            }
+            do{
+                try realm.write({
+                    realm.delete(contri)
+                })
+            }catch{
+                print(error)
+            }
+            
+        }
+        updateBillTotal()
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deletingContriInd = indexPath.row
+            let alert =  UIAlertController(title: "Confirm Delete", message: "Are You sure you want to \(event?.contributors[indexPath.row].name ?? "No Name") from the bill", preferredStyle: .alert)
+            let action1 = UIAlertAction(title: "Delete", style: .default) { (alertAction) in
+                self.deleteContributor(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.reloadData()
+            }
+            let action2 = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                tableView.reloadData()
+            alert.addAction(action1)
+            alert.addAction(action2)
+            present(alert, animated: true, completion: nil)
+            }
     
+        }
+            
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if  (event?.contributors[indexPath.row].bill.count ?? 0) > 0{
             performSegue(withIdentifier: "GoToUserBill", sender: self)
@@ -63,6 +106,10 @@ class BillTableViewController: UITableViewController{
             let destination = segue.destination as! SettleUpViewController
             destination.billStandings = self.billAmts
             destination.contributor = self.event!.contributors
+        }
+        if segue.identifier == "addContri"{
+            let destination = segue.destination as! addUsersTableViewController
+            destination.eventObj = event
         }
     }
     func updateBillTotal(){
@@ -100,6 +147,12 @@ class BillTableViewController: UITableViewController{
     @IBAction func settleUp(_ sender: UIButton) {
             performSegue(withIdentifier: "settleUp", sender: self)
     }
+    
+    @IBAction func refresh(_ sender: UIButton) {
+        updateBillTotal()
+        tableView.reloadData()
+    }
+    
     
     
 }

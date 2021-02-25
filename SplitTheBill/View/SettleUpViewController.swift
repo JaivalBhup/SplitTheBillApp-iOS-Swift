@@ -12,7 +12,7 @@ class SettleUpViewController: UITableViewController {
     var billStandings=[Double]()
     var contributor = List<Contributor>()
     var owings = [[String]]()
-    
+    var realm = try! Realm()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,9 +60,13 @@ class SettleUpViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "settleCell", for: indexPath)
         cell.textLabel?.text = "\(owings[indexPath.row][0]) owes \(owings[indexPath.row][1])"
-        cell.detailTextLabel?.text = "\(owings[indexPath.row][2]) INR"
+        cell.detailTextLabel?.text = "\(owings[indexPath.row][2]) CAD"
         return cell
     }
-
-    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+        }
+            
 }

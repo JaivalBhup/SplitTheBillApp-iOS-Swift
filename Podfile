@@ -8,5 +8,4 @@ target 'SplitTheBill' do
   # Pods for SplitTheBill
   
   pod 'RealmSwift'
-
 end

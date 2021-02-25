@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JNq-Rq-ahR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JNq-Rq-ahR">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -77,12 +77,12 @@
                                 <rect key="frame" x="40" y="160" width="334" height="34"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add Contributors...." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Hd-kd-XYL">
-                                        <rect key="frame" x="0.0" y="0.0" width="280" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="276.5" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kW-Qv-oe8">
-                                        <rect key="frame" x="316" y="0.0" width="18" height="34"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kW-Qv-oe8">
+                                        <rect key="frame" x="312.5" y="0.0" width="21.5" height="34"/>
                                         <state key="normal" image="plus" catalog="system"/>
                                         <state key="highlighted" image="plus" catalog="system"/>
                                         <connections>
@@ -94,6 +94,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5Tp-Qi-lz3">
                                 <rect key="frame" x="40" y="202" width="334" height="611"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="agL-eo-vFx">
+                                    <rect key="frame" x="0.0" y="99.5" width="334" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="user" id="MQl-cn-QId">
                                         <rect key="frame" x="0.0" y="28" width="334" height="43.5"/>
@@ -119,7 +124,13 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Add Contributors" id="RbK-28-3K0"/>
+                    <navigationItem key="navigationItem" title="Add Contributors" id="RbK-28-3K0">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="oy2-ji-Hl0">
+                            <connections>
+                                <action selector="done:" destination="wU7-M8-Hxi" id="eFa-qX-At6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="5Tp-Qi-lz3" id="otV-5b-vrZ"/>
@@ -208,21 +219,44 @@
                             <rect key="frame" x="0.0" y="99.5" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r76-3e-1ht">
-                                    <rect key="frame" x="155" y="11" width="104" height="22"/>
-                                    <state key="normal" title="Settle Up" image="rectangle.and.pencil.and.ellipsis" catalog="system">
-                                        <color key="titleColor" name="AccentColor"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="settleUp:" destination="yQw-Qo-0Ts" eventType="touchUpInside" id="51n-R2-9DF"/>
-                                        <segue destination="FtQ-Aa-AQ3" kind="presentation" identifier="settleUp" id="MJf-Oo-cIc"/>
-                                    </connections>
-                                </button>
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="UTF-Jw-2pG">
+                                    <rect key="frame" x="32.5" y="11" width="349" height="22.5"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ar6-k5-TBJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="93" height="22.5"/>
+                                            <state key="normal" image="person.badge.plus" catalog="system"/>
+                                            <connections>
+                                                <segue destination="wU7-M8-Hxi" kind="show" identifier="addContri" id="CUK-C0-v3i"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r76-3e-1ht">
+                                            <rect key="frame" x="128" y="0.0" width="93" height="22.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <state key="normal" title="Settle Up" image="rectangle.and.pencil.and.ellipsis" catalog="system">
+                                                <color key="titleColor" name="AccentColor"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="settleUp:" destination="yQw-Qo-0Ts" eventType="touchUpInside" id="51n-R2-9DF"/>
+                                                <segue destination="FtQ-Aa-AQ3" kind="presentation" identifier="settleUp" id="MJf-Oo-cIc"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBT-Nk-0bB">
+                                            <rect key="frame" x="256" y="0.0" width="93" height="22.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <state key="normal" image="arrow.clockwise" catalog="system">
+                                                <color key="titleColor" name="AccentColor"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="refresh:" destination="yQw-Qo-0Ts" eventType="touchUpInside" id="K69-bN-DeM"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </stackView>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
-                                <constraint firstItem="r76-3e-1ht" firstAttribute="centerY" secondItem="Ku2-li-ffB" secondAttribute="centerY" id="FE4-Pk-GvG"/>
-                                <constraint firstItem="r76-3e-1ht" firstAttribute="centerX" secondItem="Ku2-li-ffB" secondAttribute="centerX" id="Ndo-jV-DGy"/>
+                                <constraint firstItem="UTF-Jw-2pG" firstAttribute="centerY" secondItem="Ku2-li-ffB" secondAttribute="centerY" id="n8L-Me-ydy"/>
+                                <constraint firstItem="UTF-Jw-2pG" firstAttribute="centerX" secondItem="Ku2-li-ffB" secondAttribute="centerX" id="sSh-Ei-AeO"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -260,7 +294,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Add Bill" id="P2Q-4J-j24">
                             <connections>
                                 <action selector="addBill:" destination="yQw-Qo-0Ts" id="LfO-In-tOK"/>
-                                <segue destination="49P-Vj-Rad" kind="presentation" identifier="AddBill" modalPresentationStyle="fullScreen" id="B7b-mv-cVy"/>
+                                <segue destination="49P-Vj-Rad" kind="show" identifier="AddBill" id="B7b-mv-cVy"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -272,7 +306,7 @@
             </objects>
             <point key="canvasLocation" x="2889.8550724637685" y="34.821428571428569"/>
         </scene>
-        <!--Add Bill View Controller-->
+        <!--Add Bill-->
         <scene sceneID="eE8-ew-fFa">
             <objects>
                 <viewController id="49P-Vj-Rad" customClass="AddBillViewController" customModule="SplitTheBill" customModuleProvider="target" sceneMemberID="viewController">
@@ -281,35 +315,35 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="70" translatesAutoresizingMaskIntoConstraints="NO" id="q3s-g2-2DM">
-                                <rect key="frame" x="20" y="144" width="374" height="669"/>
+                                <rect key="frame" x="20" y="180" width="374" height="633"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="hMq-iO-IDc">
-                                        <rect key="frame" x="0.0" y="0.0" width="170" height="44.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="170" height="42.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ThN-nx-hED">
-                                                <rect key="frame" x="0.0" y="0.0" width="79" height="44.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="79" height="42.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="0.00" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iaN-aj-ESX">
-                                                <rect key="frame" x="102" y="0.0" width="68" height="44.5"/>
+                                                <rect key="frame" x="102" y="0.0" width="68" height="42.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="5wu-Us-QXC">
-                                        <rect key="frame" x="0.0" y="114.5" width="257" height="44.5"/>
+                                        <rect key="frame" x="0.0" y="112.5" width="257" height="42"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dft-qT-uBU">
-                                                <rect key="frame" x="0.0" y="10.5" width="34" height="24"/>
+                                                <rect key="frame" x="0.0" y="9" width="34" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QR6-pB-PVY">
-                                                <rect key="frame" x="57" y="5.5" width="200" height="34"/>
+                                                <rect key="frame" x="57" y="4" width="200" height="34"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="200" id="icy-Fd-JYn"/>
                                                 </constraints>
@@ -319,7 +353,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bJi-S8-MEA">
-                                        <rect key="frame" x="0.0" y="229" width="320" height="208"/>
+                                        <rect key="frame" x="0.0" y="224.5" width="320" height="208"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Paid By:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RVn-bP-2WP">
                                                 <rect key="frame" x="0.0" y="0.0" width="70.5" height="50"/>
@@ -339,10 +373,10 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aMh-k0-yCv">
-                                        <rect key="frame" x="0.0" y="507" width="374" height="162"/>
+                                        <rect key="frame" x="0.0" y="502.5" width="374" height="130.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szw-18-EO8">
-                                                <rect key="frame" x="0.0" y="70" width="182" height="22"/>
+                                                <rect key="frame" x="0.0" y="54.5" width="374" height="22"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <state key="normal" title=" Add Bill" image="bag.fill.badge.plus" catalog="system">
                                                     <color key="titleColor" name="AccentColor"/>
@@ -350,14 +384,6 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="AddBill:" destination="49P-Vj-Rad" eventType="touchUpInside" id="7c0-eL-4nQ"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ccn-q7-7ZU">
-                                                <rect key="frame" x="192" y="69" width="182" height="24"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                <state key="normal" title="Cancel" image="x.circle.fill" catalog="system"/>
-                                                <connections>
-                                                    <action selector="cancel:" destination="49P-Vj-Rad" eventType="touchUpInside" id="7Ej-Sm-QR3"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -371,14 +397,16 @@
                         <viewLayoutGuide key="safeArea" id="O9W-Ue-ASk"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="q3s-g2-2DM" firstAttribute="top" secondItem="O9W-Ue-ASk" secondAttribute="top" constant="100" id="HWz-SQ-4wS"/>
+                            <constraint firstItem="q3s-g2-2DM" firstAttribute="top" secondItem="O9W-Ue-ASk" secondAttribute="top" constant="40" id="HWz-SQ-4wS"/>
                             <constraint firstItem="O9W-Ue-ASk" firstAttribute="bottom" secondItem="q3s-g2-2DM" secondAttribute="bottom" id="Y73-zD-LP6"/>
                             <constraint firstItem="O9W-Ue-ASk" firstAttribute="trailing" secondItem="q3s-g2-2DM" secondAttribute="trailing" constant="20" id="YaD-yD-goh"/>
                             <constraint firstItem="q3s-g2-2DM" firstAttribute="leading" secondItem="O9W-Ue-ASk" secondAttribute="leading" constant="20" id="g9v-dY-Ejl"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="UnF-0G-EmO"/>
+                    <navigationItem key="navigationItem" title="Add Bill" largeTitleDisplayMode="always" id="UnF-0G-EmO">
+                        <barButtonItem key="backBarButtonItem" title="Cancel" id="GdU-xN-Ptv"/>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="amountField" destination="iaN-aj-ESX" id="MJP-hm-d4g"/>
@@ -454,11 +482,15 @@
             <point key="canvasLocation" x="1293" y="35"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="CUK-C0-v3i"/>
+    </inferredMetricsTieBreakers>
     <resources>
+        <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="bag.fill.badge.plus" catalog="system" width="128" height="128"/>
+        <image name="person.badge.plus" catalog="system" width="128" height="124"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="rectangle.and.pencil.and.ellipsis" catalog="system" width="128" height="81"/>
-        <image name="x.circle.fill" catalog="system" width="128" height="121"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

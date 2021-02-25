@@ -15,12 +15,16 @@ class addUsersTableViewController: UIViewController{
     var eventObj : Event?
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.tableFooterView = UIView(frame: .zero)
+//        tableView.tableFooterView = UIView(frame: .zero)
         tableView.delegate = self
         tableView.dataSource = self
         userInput.delegate = self
     }
     
+    @IBAction func done(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
     @IBAction func addUser(_ sender: UIButton) {
         add()
     }
@@ -75,6 +79,10 @@ extension addUsersTableViewController:UITableViewDelegate, UITableViewDataSource
             }
             
         }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
 }
 //MARK:- UITextField
 extension addUsersTableViewController: UITextFieldDelegate{
