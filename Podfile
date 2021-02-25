@@ -7,5 +7,6 @@ target 'SplitTheBill' do
 
   # Pods for SplitTheBill
   
-  pod 'RealmSwift'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
 end
