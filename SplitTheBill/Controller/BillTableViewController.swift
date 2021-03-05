@@ -6,36 +6,91 @@
 //
 
 import UIKit
-import RealmSwift
-
+import Firebase
 class BillTableViewController: UITableViewController{
-    var realm = try! Realm()
     var event:Event?
+    let db = Firestore.firestore()
+    var contributors:[Contributor] = []
+    var bills:[Bill] = []
+    var conBills:[ContibutorToBills] = []
     var billAmts = [Double]()
     var individualPaymets = [Double]()
     var deletingContriInd = -1
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadContributors(for: event!)
         title = event?.eventName
         self.navigationItem.prompt = "Total: \(event?.total ?? 0)"
-        billAmts = [Double](repeating: 0.0, count: event?.contributors.count ?? 0)
-        individualPaymets = [Double](repeating: 0.0, count: event?.contributors.count ?? 0)
-        updateBillTotal()
+        billAmts = [Double](repeating: 0.0, count: contributors.count)
+        individualPaymets = [Double](repeating: 0.0, count: contributors.count)
+        //updateBillTotal()
     }
     override func viewWillAppear(_ animated: Bool) {
         updateBillTotal()
-        tableView.reloadData()
+    }
+    func loadContributors(for event : Event){
+        db.collection("EventContributor").whereField("EventID", isEqualTo: event.eventID).addSnapshotListener { (QuerySnapshot, Error) in
+            self.contributors = []
+            self.conBills = []
+            if let e = Error{
+                print("Error getting new contributor\(e)")
+            }
+            else{
+                if let snapShot = QuerySnapshot?.documents{
+                    for document in snapShot{
+                        let data = document.data()
+                        let email = data["ContributorID"] as! String
+                        self.db.collection("Contributors").document(email).getDocument { (DocumentSnapshot, Error) in
+                            if let e = Error{
+                                print(e)
+                            }
+                            else{
+                                if let d = DocumentSnapshot?.data(){
+                                    let name = "\(d["FirstName"] ?? "") \(d["LastName"] ?? "")"
+                                    let contri = Contributor(name: name, email: d["Email"] as! String)
+                                    self.contributors.append(contri)
+                                    let cb = ContibutorToBills()
+                                    cb.contributor = contri
+                                    self.db.collection("Bills").whereField("EventID", isEqualTo: self.event?.eventID ?? "NoID").whereField("Contributor", isEqualTo: contri.email).getDocuments { (QuerySnapshot, Error) in
+                                        if let snapShots = QuerySnapshot?.documents{
+                                            for snapShot in snapShots{
+                                                let data = snapShot.data()
+                                                let id = data["id"] as! String
+                                                let title = data["Title"] as! String
+                                                let amt = data["Amount"] as! Double
+                                                let b = Bill(billID: id, title: title, amount: amt)
+                                                cb.Bills.append(b)
+                                            }
+                                        }
+                                    }
+                                    self.conBills.append(cb)
+                                    DispatchQueue.main.async {
+                                        self.updateBillTotal()
+                                        self.tableView.reloadData()
+                                    }           
+                                }
+                                
+                            }
+                            
+                            
+                        }
+                        
+                    }
+                    
+                }
+            }
+        }
     }
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return event?.contributors.count ?? 0
+        return contributors.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "Bill")!
-        cell.textLabel?.text = event?.contributors[indexPath.row].name
+        cell.textLabel?.text = contributors[indexPath.row].name
         cell.detailTextLabel?.text = "\(Double(floor(100*billAmts[indexPath.row])/100)) CAD"
         return cell
     }
@@ -44,57 +99,58 @@ class BillTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    func deleteContributor(at: Int){
-        if let contri = event?.contributors[at]{
-            for b in contri.bill{
-                do{
-                    try realm.write({
-                        realm.delete(b)
-                    })
-                }catch{
-                    print(error)
-                }
-            }
-            do{
-                try realm.write({
-                    realm.delete(contri)
-                })
-            }catch{
-                print(error)
-            }
-            
-        }
-        updateBillTotal()
-    }
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            deletingContriInd = indexPath.row
-            let alert =  UIAlertController(title: "Confirm Delete", message: "Are You sure you want to \(event?.contributors[indexPath.row].name ?? "No Name") from the bill", preferredStyle: .alert)
-            let action1 = UIAlertAction(title: "Delete", style: .default) { (alertAction) in
-                self.deleteContributor(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-                tableView.reloadData()
-            }
-            let action2 = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                tableView.reloadData()
-            alert.addAction(action1)
-            alert.addAction(action2)
-            present(alert, animated: true, completion: nil)
-            }
-    
-        }
+//    func deleteContributor(at: Int){
+//        if let contri = event?.contributors[at]{
+//            for b in contri.bill{
+//                do{
+//                    try realm.write({
+//                        realm.delete(b)
+//                    })
+//                }catch{
+//                    print(error)
+//                }
+//            }
+//            do{
+//                try realm.write({
+//                    realm.delete(contri)
+//                })
+//            }catch{
+//                print(error)
+//            }
+//
+//        }
+//        updateBillTotal()
+//    }
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            deletingContriInd = indexPath.row
+//            let alert =  UIAlertController(title: "Confirm Delete", message: "Are You sure you want to \(event?.contributors[indexPath.row].name ?? "No Name") from the bill", preferredStyle: .alert)
+//            let action1 = UIAlertAction(title: "Delete", style: .default) { (alertAction) in
+//                self.deleteContributor(at: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//                tableView.reloadData()
+//            }
+//            let action2 = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//                tableView.reloadData()
+//            alert.addAction(action1)
+//            alert.addAction(action2)
+//            present(alert, animated: true, completion: nil)
+//            }
+//
+//        }
             
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if  (event?.contributors[indexPath.row].bill.count ?? 0) > 0{
-            performSegue(withIdentifier: "GoToUserBill", sender: self)
-        }
+//        if  (bills?.count ?? 0) > 0{
+        performSegue(withIdentifier: "GoToUserBill", sender: self)
+//        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GoToUserBill"{
             let destination = segue.destination as! UserBillTableViewController
             if let indexPath = tableView.indexPathForSelectedRow{
-                destination.contributor = event?.contributors[indexPath.row]
+                destination.contributor = contributors[indexPath.row]
+                destination.eventId = event?.eventID
                     
             }
         }
@@ -105,40 +161,44 @@ class BillTableViewController: UITableViewController{
         if segue.identifier == "settleUp"{
             let destination = segue.destination as! SettleUpViewController
             destination.billStandings = self.billAmts
-            destination.contributor = self.event!.contributors
+            destination.contributors = self.contributors
         }
         if segue.identifier == "addContri"{
             let destination = segue.destination as! addUsersTableViewController
             destination.eventObj = event
+            destination.contributors = contributors
         }
     }
     func updateBillTotal(){
-        billAmts = [Double](repeating: 0.0, count: event?.contributors.count ?? 0)
-        individualPaymets = [Double](repeating: 0.0, count: event?.contributors.count ?? 0)
+        billAmts = [Double](repeating: 0.0, count: contributors.count )
+        individualPaymets = [Double](repeating: 0.0, count:contributors.count)
         var m = 0.0
-        if let cs = event?.contributors{
-            var j = 0
-            for i in cs {
-                for b in i.bill{
-                    m += b.amount
-                    individualPaymets[j] += b.amount
-                }
-                j += 1
+        var j = 0
+        for cBill in conBills {
+            print(cBill, j)
+            for bill in cBill.Bills{
+                let amt = bill.amount
+                m+=amt
+                self.individualPaymets[j] += amt
             }
+            j += 1
+            
         }
-        do{
-            try realm.write({
-                event?.total = m
-            })
-        }catch{
-            print("EErrrrr \(error)")
+        if let e = self.event{
+            self.db.collection("Events").document(e.eventID).setData([
+                "Total":m
+            ],merge: true)
         }
-        
-        let split = m / Double(event?.contributors.count ?? 1)
-        for b in 0..<billAmts.count{
-            billAmts[b] = individualPaymets[b] - split
+        self.event?.total = m
+        let split = m / Double(self.contributors.count)
+        print(split)
+        print(self.individualPaymets)
+        for b in 0..<self.billAmts.count{
+            self.billAmts[b] = self.individualPaymets[b] - split
         }
-        self.navigationItem.prompt = "Total: \(event?.total ?? 0)"
+        print(self.billAmts)
+        self.navigationItem.prompt = "Total: \(self.event?.total ?? 0)"
+        self.tableView.reloadData()
     }
     @IBAction func addBill(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "AddBill", sender: self)
@@ -150,7 +210,6 @@ class BillTableViewController: UITableViewController{
     
     @IBAction func refresh(_ sender: UIButton) {
         updateBillTotal()
-        tableView.reloadData()
     }
     
     

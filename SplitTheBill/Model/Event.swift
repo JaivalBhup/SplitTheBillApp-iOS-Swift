@@ -6,11 +6,9 @@
 //
 
 import Foundation
-import RealmSwift
 
-class Event:Object{
-    @objc dynamic var eventName = ""
-    var contributors = List<Contributor>()
-    @objc dynamic var total = 0.0
-    
+struct Event {
+    var eventID = ""
+    var eventName = ""
+    var total:Double = 0.0
 }

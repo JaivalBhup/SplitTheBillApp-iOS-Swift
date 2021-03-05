@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import RealmSwift
-class Bill : Object{
-    @objc dynamic var title = ""
-    @objc dynamic var amount = 0.0
-    var parentContributor = LinkingObjects(fromType: Contributor.self, property: "bill")
+
+struct Bill {
+    var billID = ""
+    var title = ""
+    var amount:Double = 0.0
 }

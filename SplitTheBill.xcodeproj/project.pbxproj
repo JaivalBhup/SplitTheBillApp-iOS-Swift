@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B433C8DF25E83A2300774E3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B433C8DE25E83A2200774E3F /* GoogleService-Info.plist */; };
+		B433C8F325E8540100774E3F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B433C8F225E8540100774E3F /* RegisterViewController.swift */; };
+		B433C8F725E8548600774E3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B433C8F625E8548600774E3F /* LoginViewController.swift */; };
 		B4565730254B246C006DEF45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B456572F254B246C006DEF45 /* AppDelegate.swift */; };
 		B4565732254B246C006DEF45 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4565731254B246C006DEF45 /* SceneDelegate.swift */; };
 		B4565734254B246C006DEF45 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4565733254B246C006DEF45 /* EventsViewController.swift */; };
@@ -20,12 +23,17 @@
 		B4B86BF7254D40FD007130D0 /* AddBillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B86BF6254D40FD007130D0 /* AddBillViewController.swift */; };
 		B4D3DE7D254C784300CC979C /* Bill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D3DE7C254C784300CC979C /* Bill.swift */; };
 		B4D3DE80254C83DA00CC979C /* UserBillTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D3DE7F254C83DA00CC979C /* UserBillTableViewController.swift */; };
+		B4EBC36225F2C73D00D316C9 /* ContibutorToBills.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EBC36125F2C73D00D316C9 /* ContibutorToBills.swift */; };
 		B4F2F94F254D7838000F3E3E /* SettleUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F2F94E254D7838000F3E3E /* SettleUpViewController.swift */; };
 		C589969F193351A082332577 /* Pods_SplitTheBill.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F148540B22AA65B425C9EBB2 /* Pods_SplitTheBill.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		14F9167A8FC639D74E4633F2 /* Pods-SplitTheBill.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SplitTheBill.debug.xcconfig"; path = "Target Support Files/Pods-SplitTheBill/Pods-SplitTheBill.debug.xcconfig"; sourceTree = "<group>"; };
+		0FBA690611F2319297EBEF53 /* Pods-SplitTheBill.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SplitTheBill.release.xcconfig"; path = "Target Support Files/Pods-SplitTheBill/Pods-SplitTheBill.release.xcconfig"; sourceTree = "<group>"; };
+		8C4A6D4B154F9372EF9196E4 /* Pods-SplitTheBill.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SplitTheBill.debug.xcconfig"; path = "Target Support Files/Pods-SplitTheBill/Pods-SplitTheBill.debug.xcconfig"; sourceTree = "<group>"; };
+		B433C8DE25E83A2200774E3F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B433C8F225E8540100774E3F /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		B433C8F625E8548600774E3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B456572C254B246C006DEF45 /* SplitTheBill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitTheBill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B456572F254B246C006DEF45 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4565731254B246C006DEF45 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,8 +49,8 @@
 		B4B86BF6254D40FD007130D0 /* AddBillViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBillViewController.swift; sourceTree = "<group>"; };
 		B4D3DE7C254C784300CC979C /* Bill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bill.swift; sourceTree = "<group>"; };
 		B4D3DE7F254C83DA00CC979C /* UserBillTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBillTableViewController.swift; sourceTree = "<group>"; };
+		B4EBC36125F2C73D00D316C9 /* ContibutorToBills.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContibutorToBills.swift; sourceTree = "<group>"; };
 		B4F2F94E254D7838000F3E3E /* SettleUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettleUpViewController.swift; path = SplitTheBill/View/SettleUpViewController.swift; sourceTree = SOURCE_ROOT; };
-		C98E8F6CCDAC156C15D5C82B /* Pods-SplitTheBill.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SplitTheBill.release.xcconfig"; path = "Target Support Files/Pods-SplitTheBill/Pods-SplitTheBill.release.xcconfig"; sourceTree = "<group>"; };
 		F148540B22AA65B425C9EBB2 /* Pods_SplitTheBill.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SplitTheBill.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,11 +74,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3C96D9988D40562573A9D73F /* Pods */ = {
+		848EC27F337CF4E408EEE373 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				14F9167A8FC639D74E4633F2 /* Pods-SplitTheBill.debug.xcconfig */,
-				C98E8F6CCDAC156C15D5C82B /* Pods-SplitTheBill.release.xcconfig */,
+				8C4A6D4B154F9372EF9196E4 /* Pods-SplitTheBill.debug.xcconfig */,
+				0FBA690611F2319297EBEF53 /* Pods-SplitTheBill.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -80,8 +88,8 @@
 			children = (
 				B456572E254B246C006DEF45 /* SplitTheBill */,
 				B456572D254B246C006DEF45 /* Products */,
-				3C96D9988D40562573A9D73F /* Pods */,
 				39A5030033DB099E53A9C990 /* Frameworks */,
+				848EC27F337CF4E408EEE373 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,6 +112,7 @@
 				B4565738254B246E006DEF45 /* Assets.xcassets */,
 				B456573A254B246E006DEF45 /* LaunchScreen.storyboard */,
 				B456573D254B246E006DEF45 /* Info.plist */,
+				B433C8DE25E83A2200774E3F /* GoogleService-Info.plist */,
 			);
 			path = SplitTheBill;
 			sourceTree = "<group>";
@@ -117,6 +126,8 @@
 				B4565733254B246C006DEF45 /* EventsViewController.swift */,
 				B4D3DE7F254C83DA00CC979C /* UserBillTableViewController.swift */,
 				B4B86BF6254D40FD007130D0 /* AddBillViewController.swift */,
+				B433C8F225E8540100774E3F /* RegisterViewController.swift */,
+				B433C8F625E8548600774E3F /* LoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -127,6 +138,7 @@
 				B4565748254B45FC006DEF45 /* Event.swift */,
 				B49FF294254C250000C94FE7 /* Contributor.swift */,
 				B4D3DE7C254C784300CC979C /* Bill.swift */,
+				B4EBC36125F2C73D00D316C9 /* ContibutorToBills.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -199,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B456573C254B246E006DEF45 /* LaunchScreen.storyboard in Resources */,
+				B433C8DF25E83A2300774E3F /* GoogleService-Info.plist in Resources */,
 				B4565739254B246E006DEF45 /* Assets.xcassets in Resources */,
 				B4565737254B246C006DEF45 /* Main.storyboard in Resources */,
 			);
@@ -256,13 +269,16 @@
 				B4D3DE7D254C784300CC979C /* Bill.swift in Sources */,
 				B4F2F94F254D7838000F3E3E /* SettleUpViewController.swift in Sources */,
 				B456574C254B47D4006DEF45 /* addUsersTableViewController.swift in Sources */,
+				B433C8F325E8540100774E3F /* RegisterViewController.swift in Sources */,
 				B4565734254B246C006DEF45 /* EventsViewController.swift in Sources */,
 				B49FF295254C250000C94FE7 /* Contributor.swift in Sources */,
 				B4565730254B246C006DEF45 /* AppDelegate.swift in Sources */,
 				B4B86BF7254D40FD007130D0 /* AddBillViewController.swift in Sources */,
+				B4EBC36225F2C73D00D316C9 /* ContibutorToBills.swift in Sources */,
 				B4565746254B33A8006DEF45 /* BillTableViewController.swift in Sources */,
 				B4D3DE80254C83DA00CC979C /* UserBillTableViewController.swift in Sources */,
 				B4565732254B246C006DEF45 /* SceneDelegate.swift in Sources */,
+				B433C8F725E8548600774E3F /* LoginViewController.swift in Sources */,
 				B4565749254B45FC006DEF45 /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -407,7 +423,7 @@
 		};
 		B4565741254B246E006DEF45 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14F9167A8FC639D74E4633F2 /* Pods-SplitTheBill.debug.xcconfig */;
+			baseConfigurationReference = 8C4A6D4B154F9372EF9196E4 /* Pods-SplitTheBill.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -428,7 +444,7 @@
 		};
 		B4565742254B246E006DEF45 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C98E8F6CCDAC156C15D5C82B /* Pods-SplitTheBill.release.xcconfig */;
+			baseConfigurationReference = 0FBA690611F2319297EBEF53 /* Pods-SplitTheBill.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

@@ -6,10 +6,8 @@
 //
 
 import Foundation
-import RealmSwift
-class Contributor:Object {
-    @objc dynamic var name = ""
-    var bill = List<Bill>()
-    var parentEvent = LinkingObjects(fromType: Event.self, property: "contributors")
 
+struct Contributor {
+    var name = ""
+    var email = ""
 }
