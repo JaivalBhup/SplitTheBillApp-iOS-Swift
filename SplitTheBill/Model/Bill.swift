@@ -8,7 +8,7 @@
 import Foundation
 
 struct Bill {
-    var billID = ""
+    var contributor = ""
     var title = ""
     var amount:Double = 0.0
 }

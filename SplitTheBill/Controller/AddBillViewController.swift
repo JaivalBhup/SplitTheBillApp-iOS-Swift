@@ -19,7 +19,8 @@ class AddBillViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadContributors(for: event!)
+        //loadContributors(for: event!)
+        selectedContributor = contributors.first
         contributorPicker.delegate = self
         contributorPicker.dataSource = self
         amountField.delegate = self
@@ -66,14 +67,22 @@ class AddBillViewController: UIViewController{
 
     @IBAction func AddBill(_ sender: UIButton) {
         if let a = amountField.text, let t = titleField.text, let c = selectedContributor{
-            let doc = db.collection("Bills").document()
-            doc.setData([
-                "Title": t,
-                "Amount":Double(a) ?? 0.0,
-                "Contributor":c.email,
-                "id":doc.documentID,
-                "EventID": event?.eventID ?? "NoID"
-            ])
+            let doc = db.collection("Events").document(event?.eventID ?? "")
+            doc.updateData(["Bills":FieldValue.arrayUnion([[
+                "Title":t,
+                "Amount":Double(a) ?? 0,
+                "Contributor":c.email
+            ]])])
+            var total = Double(a) ?? 0
+            doc.getDocument { (DocumentSnapshot, Error) in
+                if let data = DocumentSnapshot?.data(){
+                    let amt = data["Total"] as! Double
+                    total = total + amt
+                    doc.setData(["Total": total], merge: true)
+
+                }
+                
+            }
             dismiss(animated: true, completion: nil)
         }
     }

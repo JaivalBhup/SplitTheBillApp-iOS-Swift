@@ -132,39 +132,66 @@ class EventsViewController: UITableViewController {
     
     func loadEvents(for contributor: String){
 //        print("in lOad events \(contributor)")
-        let eventIDsRef = db.collection("EventContributor")
-        eventIDsRef.whereField("ContributorID", isEqualTo: contributor).addSnapshotListener {
-            (querySnapshot, err) in
-            if let e = err{
-                print("error \(e)")
+        db.collection("Events").addSnapshotListener { (QuerySnapshot, Error) in
+            if let e = Error{
+                print(e)
             }
             else{
-                if let snapshot = querySnapshot?.documents{
-                    self.events = []
-                    for doc in snapshot{
-                        let eventContriDoc = doc.data()
-                        let id = eventContriDoc["EventID"] as! String
-                        self.db.collection("Events").document(id).getDocument { (DocumentSnapshot, Error) in
-                            if let d = DocumentSnapshot?.data(){
-                                print(d)
-                                let eventName = d["EventName"] as! String
-                                let total = d["Total"] as! Double
-                                let id = d["id"] as! String
+                self.events = []
+                if let snapShots = QuerySnapshot?.documents{
+                    for snapShot in snapShots{
+                        let data = snapShot.data()
+                        if let contributors = data["Contributors"] as? [String]{
+                            if contributors.contains(contributor){
+                                let eventName = data["EventName"] as! String
+                                let total = data["Total"] as! Double
+                                let id = data["id"] as! String
                                 let event = Event(eventID : id,eventName: eventName, total: (total))
                                 self.events.append(event)
-                                DispatchQueue.main.async {
-//                                    print("data reloaded")
-                                    self.tableView.reloadData()
-                                }
                             }
                         }
                     }
-                    
                 }
-               
             }
-                
+            DispatchQueue.main.async {
+                print("data reloaded")
+                self.tableView.reloadData()
+            }
+            
         }
+//        let eventIDsRef = db.collection("EventContributor")
+//        eventIDsRef.whereField("ContributorID", isEqualTo: contributor).addSnapshotListener {
+//            (querySnapshot, err) in
+//            if let e = err{
+//                print("error \(e)")
+//            }
+//            else{
+//                if let snapshot = querySnapshot?.documents{
+//                    self.events = []
+//                    for doc in snapshot{
+//                        let eventContriDoc = doc.data()
+//                        let id = eventContriDoc["EventID"] as! String
+//                        self.db.collection("Events").document(id).getDocument { (DocumentSnapshot, Error) in
+//                            if let d = DocumentSnapshot?.data(){
+//                                print(d)
+//                                let eventName = d["EventName"] as! String
+//                                let total = d["Total"] as! Double
+//                                let id = d["id"] as! String
+//                                let event = Event(eventID : id,eventName: eventName, total: (total))
+//                                self.events.append(event)
+//                                DispatchQueue.main.async {
+////                                    print("data reloaded")
+//                                    self.tableView.reloadData()
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                }
+//
+//            }
+//
+//        }
     }
     func save(_ e: Event){
         events = []
@@ -172,11 +199,9 @@ class EventsViewController: UITableViewController {
         eventDoc.setData([
             "EventName":e.eventName,
             "Total":0,
-            "id":eventDoc.documentID
-        ])
-        db.collection("EventContributor").addDocument(data: [
-            "EventID":eventDoc.documentID,
-            "ContributorID" :contributor.email
+            "id":eventDoc.documentID,
+            "Contributors":[userEmail],
+            "Bills":[]
         ])
     }
     
