@@ -51,7 +51,9 @@ class UserBillTableViewController: UIViewController, UITableViewDelegate, UITabl
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "UserBill", for: indexPath)
         cell.textLabel?.text = bills?[indexPath.row].title ?? ""
-    cell.detailTextLabel?.text = "\(bills?[indexPath.row].amount ?? 0) CAD"
+        cell.detailTextLabel?.text = "\(bills?[indexPath.row].amount ?? 0) CAD"
+        cell.imageView?.image = UIImage(systemName: "text.chevron.right")
+
         
         return cell
     }

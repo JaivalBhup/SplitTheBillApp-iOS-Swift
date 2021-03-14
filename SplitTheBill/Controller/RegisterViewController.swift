@@ -17,11 +17,17 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var pass: UITextField!
     @IBOutlet weak var cPass: UITextField!
     
+    @IBOutlet weak var errorLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setUpElements()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        setUpElements()
+    }
+    func setUpElements(){
+        errorLabel.alpha = 0
+    }
 
     /*
     // MARK: - Navigation
@@ -33,23 +39,43 @@ class RegisterViewController: UIViewController {
     }
     */
     @IBAction func register(_ sender: UIButton) {
-        if let e = email.text, let p = pass.text,let fn = fName.text, let ln = lName.text,let ph = phone.text{
-            Auth.auth().createUser(withEmail: e, password: p) { (authRes, error) in
-                if let err = error{
-                    print("error creating user \(err)")
+        if let e = email.text, let p = pass.text, let cp = cPass.text,let fn = fName.text, let ln = lName.text,let ph = phone.text{
+            let e = e.trimmingCharacters(in: .whitespacesAndNewlines)
+            let p = p.trimmingCharacters(in: .whitespacesAndNewlines)
+            let cp = cp.trimmingCharacters(in: .whitespacesAndNewlines)
+            let fn = fn.trimmingCharacters(in: .whitespacesAndNewlines)
+            let ln = ln.trimmingCharacters(in: .whitespacesAndNewlines)
+            let ph = ph.trimmingCharacters(in: .whitespacesAndNewlines)
+            if e == "" || p == "" || cp == "" || fn == "" || ln == "" || ph == ""{
+                errorLabel.alpha = 1
+                errorLabel.text = "One or more fields are incomplete."
+            }
+            else{
+                if p != cp{
+                    errorLabel.alpha = 1
+                    errorLabel.text = "Passwords don't match."
                 }
                 else{
-                    self.db.collection("Contributors").document(e).setData(
-                                                        ["FirstName":fn,
-                                                         "LastName":ln,
-                                                         "Email":e,
-                                                         "Phone":ph,
-                                                        ]) { (error) in
-                                                        print(error ?? "")
-                                            }
-                    
-                    self.performSegue(withIdentifier: "RegisterToEvent", sender: self)
-                    
+                
+                    Auth.auth().createUser(withEmail: e, password: p) { (authRes, error) in
+                        if let err = error{
+                            self.errorLabel.alpha = 1
+                            self.errorLabel.text = err.localizedDescription
+                        }
+                        else{
+                            self.db.collection("Contributors").document(e).setData(
+                                                                ["FirstName":fn,
+                                                                 "LastName":ln,
+                                                                 "Email":e,
+                                                                 "Phone":ph,
+                                                                ]) { (error) in
+                                                                print(error ?? "")
+                                                    }
+                            
+                            self.performSegue(withIdentifier: "RegisterToEvent", sender: self)
+                            
+                        }
+                    }
                 }
             }
         }

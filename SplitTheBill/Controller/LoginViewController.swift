@@ -18,14 +18,21 @@ class LoginViewController: UIViewController {
         setUpElements()
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        setUpElements()
+    }
     func setUpElements(){
-        
+        errorLabel.alpha = 0
     }
     @IBAction func Login(_ sender: UIButton) {
-        if let e = email.text, let p = pass{
-            Auth.auth().signIn(withEmail: e, password: p.text!) { (authRes, error) in
+        if let e = email.text, let p = pass.text{
+            let email = e.trimmingCharacters(in: .whitespacesAndNewlines)
+            let pass = p.trimmingCharacters(in: .whitespacesAndNewlines)
+            Auth.auth().signIn(withEmail: email, password: pass) { (authRes, error) in
                 if let e = error{
                     print("error \(e)")
+                    self.errorLabel.alpha = 1
+                    self.errorLabel.text = e.localizedDescription
                 }
                 else{
                     self.performSegue(withIdentifier: "LoginToEvent", sender: self)
