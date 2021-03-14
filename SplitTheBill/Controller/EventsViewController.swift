@@ -16,6 +16,8 @@ class EventsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
+        self.navigationItem.setHidesBackButton(true, animated:true)
+
         // Do any additional setup after loading the view.
     }
     
@@ -49,6 +51,7 @@ class EventsViewController: UITableViewController {
         if segue.identifier == "GoToBill"{
             let destination = segue.destination as! BillTableViewController
             if let indexPath = tableView.indexPathForSelectedRow{
+                print(events[indexPath.row])
                 destination.event = events[indexPath.row]
             }
         }
@@ -57,43 +60,25 @@ class EventsViewController: UITableViewController {
             destination.eventObj = events.last
         }
     }
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//            if editingStyle == .delete {
-//                if let event = self.events?[indexPath.row]{
-//                    // remove all contributors
-//                    for c in event.contributors{
-//                        for b in c.bill{
-//                            do{
-//                                try realm.write({
-//                                    realm.delete(b)
-//                                })
-//                            }catch{
-//                                print("Cannot Delete Bill\(error)")
-//                            }
-//                        }
-//                        do{
-//                            try realm.write({
-//                                realm.delete(c)
-//                            })
-//                        }catch{
-//                            print("Cannot Delete Contributor\(error)")
-//                        }
-//                    }
-//                    // remove event
-//                    do{
-//                        try realm.write({
-//                            realm.delete(event)
-//                        })
-//                    }catch{
-//                        print("Cannot Delete Event \(error)")
-//                    }
-//                    tableView.deleteRows(at: [indexPath], with: .fade)
-//                }
-//                
-//            } else if editingStyle == .insert {
-//                // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-//            }
-//        }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                    // remove all contributors
+                let eventID = events[indexPath.row].eventID
+                print(eventID)
+                db.collection("Events").document(eventID).delete(){ err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
+                    }
+                }
+                events.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+
+            } else if editingStyle == .insert {
+                // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+            }
+        }
     
 
     // Datasource methods
@@ -109,7 +94,7 @@ class EventsViewController: UITableViewController {
     }
     
     
-    @IBAction func addEvent(_ sender: UIBarButtonItem) {
+    @IBAction func addEvent(_ sender: UIButton) {
         var textField = UITextField()
         let alert =  UIAlertController(title: "Add A New Event", message: "", preferredStyle: .alert)
         alert.addTextField { (alertTextfield) in
@@ -148,15 +133,17 @@ class EventsViewController: UITableViewController {
                                 let id = data["id"] as! String
                                 let event = Event(eventID : id,eventName: eventName, total: (total))
                                 self.events.append(event)
+                                DispatchQueue.main.async {
+                                    print("data reloaded")
+                                    self.tableView.reloadData()
+                                }
                             }
                         }
+                        
                     }
                 }
             }
-            DispatchQueue.main.async {
-                print("data reloaded")
-                self.tableView.reloadData()
-            }
+            
             
         }
 //        let eventIDsRef = db.collection("EventContributor")
@@ -204,6 +191,19 @@ class EventsViewController: UITableViewController {
             "Bills":[]
         ])
     }
+    
+    
+    @IBAction func LogOut(_ sender: UIBarButtonItem) {
+    let firebaseAuth = Auth.auth()
+       do {
+         try firebaseAuth.signOut()
+       } catch let signOutError as NSError {
+         print ("Error signing out: %@", signOutError)
+       }
+        _ = navigationController?.popToRootViewController(animated: true)
+    }
+    
+    
     
 
 }

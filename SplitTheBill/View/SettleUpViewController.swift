@@ -15,7 +15,7 @@ class SettleUpViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
-        print(billStandings)
+        print(billStandings,"sl;j;adklds")
         for i in 0..<(billStandings.count){
             if billStandings[i] > 0 {
                 var j = 0

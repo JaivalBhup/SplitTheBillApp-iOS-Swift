@@ -64,30 +64,41 @@ class AddBillViewController: UIViewController{
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
+    
+    func add(Amount a: String, Text t: String, Contributor c: Contributor){
+        let doc = db.collection("Events").document(event?.eventID ?? "")
+        doc.updateData(["Bills":FieldValue.arrayUnion([[
+            "Title":t,
+            "Amount":Double(a) ?? 0,
+            "Contributor":c.email
+        ]])])
+        var total = Double(a) ?? 0
+        doc.getDocument { (DocumentSnapshot, Error) in
+            if let data = DocumentSnapshot?.data(){
+                let amt = data["Total"] as! Double
+                total = total + amt
+                doc.setData(["Total": total], merge: true)
+
+            }
+            
+        }
+        
+    }
 
     @IBAction func AddBill(_ sender: UIButton) {
         if let a = amountField.text, let t = titleField.text, let c = selectedContributor{
-            let doc = db.collection("Events").document(event?.eventID ?? "")
-            doc.updateData(["Bills":FieldValue.arrayUnion([[
-                "Title":t,
-                "Amount":Double(a) ?? 0,
-                "Contributor":c.email
-            ]])])
-            var total = Double(a) ?? 0
-            doc.getDocument { (DocumentSnapshot, Error) in
-                if let data = DocumentSnapshot?.data(){
-                    let amt = data["Total"] as! Double
-                    total = total + amt
-                    doc.setData(["Total": total], merge: true)
-
-                }
-                
+            let alert = UIAlertController(title: "Confirm?", message: "\(c.name) paid \(a) for \(t)", preferredStyle: .alert)
+            let action1 = UIAlertAction(title: "Yes", style: .default) { (UIAlertAction) in
+                self.add(Amount: a, Text: t, Contributor: c)
             }
-            dismiss(animated: true, completion: nil)
+            let action2 = UIAlertAction(title: "No", style: .destructive) { (UIAlertAction) in
+                return
+            }
+            alert.addAction(action1)
+            alert.addAction(action2)
+            self.present(alert, animated: true, completion: nil)
+            
         }
-    }
-    @IBAction func cancel(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
     }
 }
 
