@@ -14,11 +14,13 @@ class AddBillViewController: UIViewController{
     var event:Event?
     var contributors:[Contributor] = []
     var selectedContributor:Contributor?
+    @IBOutlet weak var addBill: UIButton!
     var selectedIndex = 0
     @IBOutlet weak var contributorPicker: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpButtons()
         //loadContributors(for: event!)
         selectedContributor = contributors.first
         contributorPicker.delegate = self
@@ -26,6 +28,15 @@ class AddBillViewController: UIViewController{
         amountField.delegate = self
         titleField.delegate = self
 
+    }
+    func setUpButtons(){
+        addBill.clipsToBounds = true
+        addBill.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.45).cgColor
+        addBill.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        addBill.layer.shadowOpacity = 1.0;
+        addBill.layer.shadowRadius = 2.0;
+        addBill.layer.masksToBounds = false;
+        addBill.layer.cornerRadius = 6.0;
     }
     func loadContributors(for event : Event){
         db.collection("EventContributor").whereField("EventID", isEqualTo: event.eventID).getDocuments{ (QuerySnapshot, Error) in

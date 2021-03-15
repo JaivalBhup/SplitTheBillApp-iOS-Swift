@@ -8,6 +8,10 @@
 import UIKit
 import Firebase
 class BillTableViewController: UITableViewController{
+
+    @IBOutlet weak var infoBut: UIButton!
+    @IBOutlet weak var setUpBut: UIButton!
+    @IBOutlet weak var addBut: UIButton!
     
     var event:Event?
     let db = Firestore.firestore()
@@ -18,13 +22,38 @@ class BillTableViewController: UITableViewController{
     var individualPaymets = [Double]()
     var deletingContriInd = -1
     override func viewDidLoad() {
-        
+        setUpButtons()
         super.viewDidLoad()
         title = event?.eventName ?? ""
         self.navigationItem.prompt = "Total: \(event?.total ?? 0)"
         billAmts = [Double](repeating: 0.0, count: contributors.count)
         individualPaymets = [Double](repeating: 0.0, count: contributors.count)
         //updateBillTotal()
+    }
+    func setUpButtons(){
+        infoBut.clipsToBounds = true
+        infoBut.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        infoBut.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        infoBut.layer.shadowOpacity = 1.0;
+        infoBut.layer.shadowRadius = 2.0;
+        infoBut.layer.masksToBounds = false;
+        infoBut.layer.cornerRadius = 4.0;
+        
+        setUpBut.clipsToBounds = true
+        setUpBut.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        setUpBut.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        setUpBut.layer.shadowOpacity = 1.0;
+        setUpBut.layer.shadowRadius = 2.0;
+        setUpBut.layer.masksToBounds = false;
+        setUpBut.layer.cornerRadius = 4.0;
+        
+        addBut.clipsToBounds = true
+        addBut.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        addBut.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        addBut.layer.shadowOpacity = 1.0;
+        addBut.layer.shadowRadius = 2.0;
+        addBut.layer.masksToBounds = false;
+        addBut.layer.cornerRadius = 4.0;
     }
     override func viewWillAppear(_ animated: Bool) {
         loadContributors(completion: load)

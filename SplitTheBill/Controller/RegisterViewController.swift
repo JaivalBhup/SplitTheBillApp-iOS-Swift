@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UITextFieldDelegate {
     let db = Firestore.firestore()
     @IBOutlet weak var fName: UITextField!
     @IBOutlet weak var lName: UITextField!
@@ -17,9 +17,16 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var pass: UITextField!
     @IBOutlet weak var cPass: UITextField!
     
+    @IBOutlet weak var signUp: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        fName.delegate = self
+        lName.delegate = self
+        email.delegate = self
+        phone.delegate = self
+        pass.delegate = self
+        cPass.delegate = self
         setUpElements()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -27,6 +34,27 @@ class RegisterViewController: UIViewController {
     }
     func setUpElements(){
         errorLabel.alpha = 0
+        signUp.layer.cornerRadius = 30
+        signUp.clipsToBounds = true
+        signUp.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        signUp.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        signUp.layer.shadowOpacity = 1.0;
+        signUp.layer.shadowRadius = 2.0;
+        signUp.layer.masksToBounds = false;
+        signUp.layer.cornerRadius = 4.0;
+        
+        fName.attributedPlaceholder = NSAttributedString(string: "First Name",
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 87, green: 101, blue: 116, alpha: 1.0)])
+        lName.attributedPlaceholder = NSAttributedString(string: "Last Name",
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 87, green: 101, blue: 116, alpha: 1.0)])
+        email.attributedPlaceholder = NSAttributedString(string: "Email",
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 87, green: 101, blue: 116, alpha: 1.0)])
+        phone.attributedPlaceholder = NSAttributedString(string: "(000)-000-0000",
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 87, green: 101, blue: 116, alpha: 1.0)])
+        pass.attributedPlaceholder = NSAttributedString(string: "Password",
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 87, green: 101, blue: 116, alpha: 1.0)])
+        cPass.attributedPlaceholder = NSAttributedString(string: "Retype password",
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 87, green: 101, blue: 116, alpha: 1.0)])
     }
 
     /*
@@ -84,5 +112,10 @@ class RegisterViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = segue.destination as! EventsViewController
         destination.userEmail = email.text ?? "eg@123.com"
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

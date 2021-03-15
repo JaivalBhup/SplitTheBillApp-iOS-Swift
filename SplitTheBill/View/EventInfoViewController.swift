@@ -76,7 +76,6 @@ extension EventInfoViewController: UITableViewDelegate, UITableViewDataSource{
             cell.detailTextLabel?.text = "\(i[indexPath.row].email)"
             cell.imageView?.image = UIImage(systemName: "person")
         }
-        
         return cell
     }
     

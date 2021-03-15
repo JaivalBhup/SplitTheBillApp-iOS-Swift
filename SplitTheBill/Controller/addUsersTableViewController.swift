@@ -20,6 +20,8 @@ class addUsersTableViewController: UIViewController{
         tableView.delegate = self
         tableView.dataSource = self
         userInput.delegate = self
+        userInput.attributedPlaceholder = NSAttributedString(string: "Enter email...",
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 87, green: 101, blue: 116, alpha: 1.0)])
     }
 //    func loadContributors(for event : Event){
 //        db.collection("EventContributor").whereField("EventID", isEqualTo: event.eventID).addSnapshotListener {
